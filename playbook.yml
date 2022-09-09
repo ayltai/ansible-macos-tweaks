@@ -1,0 +1,456 @@
+---
+- name: macOS tweaks
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Check if System Integrity Protection is enabled
+      ansible.builtin.command: csrutil status
+      changed_when: no
+      register: tweak_macos_sip
+    - name: Warn if System Integrity Protection is enabled
+      ansible.builtin.pause:
+        prompt: System Integrity Protection (SIP) is enabled. Some tweaks will not be applied. If this is not what you want, press 'Command+C' then 'A' to abort
+        seconds: 10
+      when: "'enabled' in tweak_macos_sip.stdout"
+    - name: Change Launchpad grid columns
+      osx_defaults:
+        domain: com.apple.dock
+        key: springboard-columns
+        type: int
+        value: "{{ tweak_macos_launchpad_grid_columns_value }}"
+      when: tweak_macos_launchpad_grid_columns_enabled
+    - name: Change Launchpad grid rows
+      osx_defaults:
+        domain: com.apple.dock
+        key: springboard-rows
+        type: int
+        value: "{{ tweak_macos_launchpad_grid_rows_value }}"
+      when: tweak_macos_launchpad_grid_rows_enabled
+    - name: Disable disk image verification
+      osx_defaults:
+        domain: com.apple.frameworks.diskimages
+        key: "{{ item }}"
+        type: bool
+        value: "{{ tweak_macos_disable_disk_image_verification_value }}"
+      with_items:
+        - skip-verify
+        - skip-verify-locked
+        - skip-verify-remote
+      when: tweak_macos_disable_disk_image_verification_enabled
+    - name: Disable Gatekeeper
+      become: true
+      ansible.builtin.command: spctl --master-"{{ 'disable' if tweak_macos_disable_gatekeeper_value else 'enable' }}"
+      when: tweak_macos_disable_gatekeeper_enabled
+    - name: Disable Game Center daemon
+      ansible.builtin.command: launchctl "{{ 'unload' if tweak_macos_disable_game_center_value else 'load' }}" -w /System/Library/LaunchAgents/com.apple.gamed.plist 2> /dev/null
+      when:
+        - tweak_macos_disable_game_center_enabled
+        - "'disabled' in tweak_macos_sip.stdout"
+    - name: Disable smart quotes
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSAutomaticQuoteSubstitutionEnabled
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_smart_quotes_value else 'true' }}"
+      when: tweak_macos_disable_smart_quotes_enabled
+    - name: Disable smart dashes
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSAutomaticDashSubstitutionEnabled
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_smart_dashes_value else 'true' }}"
+      when: tweak_macos_disable_smart_dashes_enabled
+    - name: Disable the Sudden Motion Sensor
+      become: true
+      ansible.builtin.command: pmset -a sms "{{ '0' if tweak_macos_disable_sudden_motion_sensor_value else '1' }}"
+      when: tweak_macos_disable_sudden_motion_sensor_enabled
+    - name: Disable hibernation
+      become: true
+      ansible.builtin.command: pmset -a hibernatemode "{{ '0' if tweak_macos_disable_hibernation_value else '3' }}"
+      when:
+        - tweak_macos_disable_hibernation_enabled
+        - "'disabled' in tweak_macos_sip.stdout"
+    - name: Disable Photos from opening automatically
+      osx_defaults:
+        domain: com.apple.ImageCapture
+        key: disableHotPlug
+        type: bool
+        value: "{{ tweak_macos_disable_photos_auto_open_value }}"
+      when: tweak_macos_disable_photos_auto_open_enabled
+    - name: Set the default screenshot location
+      osx_defaults:
+        domain: com.apple.screencapture
+        key: location
+        type: string
+        value: "{{ tweak_macos_default_screenshot_location_value }}"
+      when: tweak_macos_default_screenshot_location_enabled
+    - name: Display a thumbnail after taking a screenshot
+      osx_defaults:
+        domain: com.apple.screencapture
+        key: show-thumbnail
+        type: bool
+        value: "{{ tweak_macos_display_thumbnail_after_screenshot_value }}"
+      when: tweak_macos_display_thumbnail_after_screenshot_enabled
+    - name: Change screenshots format
+      osx_defaults:
+        domain: com.apple.screencapture
+        key: type
+        type: string
+        value: "{{ tweak_macos_screenshots_format_value }}"
+      notify: Restart SystemUIServer
+      when: tweak_macos_screenshots_format_enabled
+    - name: Disable screenshot shadow
+      osx_defaults:
+        domain: com.apple.screencapture
+        key: disable-shadow
+        type: bool
+        value: "{{ tweak_macos_disable_screenshot_shadow_value }}"
+      notify: Restart SystemUIServer
+      when: tweak_macos_disable_screenshot_shadow_enabled
+    - name: Include date in screenshot filenames
+      osx_defaults:
+        domain: com.apple.screencapture
+        key: include-date
+        type: bool
+        value: "{{ tweak_macos_include_date_in_screenshot_filenames_value }}"
+      notify: Restart SystemUIServer
+      when: tweak_macos_include_date_in_screenshot_filenames_enabled
+    - name: Change subpixel font rendering on external monitors
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: AppleFontSmoothing
+        type: int
+        value: "{{ tweak_macos_subpixel_font_rendering_value }}"
+      when: tweak_macos_subpixel_font_rendering_enabled
+    - name: Show file extensions in Finder
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: AppleShowAllExtensions
+        type: bool
+        value: "{{ tweak_macos_show_file_extensions_value }}"
+      notify: Restart Finder
+      when: tweak_macos_show_file_extensions_enabled
+    - name: Show hidden files in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: AppleShowAllFiles
+        type: bool
+        value: "{{ tweak_macos_show_hidden_files_value }}"
+      notify: Restart Finder
+      when: tweak_macos_show_hidden_files_enabled
+    - name: Change the sidebar icon size in Finder
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSTableViewDefaultSizeMode
+        type: int
+        value: "{{ tweak_macos_sidebar_icon_size_value }}"
+      notify: Restart Finder
+      when: tweak_macos_sidebar_icon_size_enabled
+    - name: Show status bar in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: ShowStatusBar
+        type: bool
+        value: "{{ tweak_macos_show_status_bar_value }}"
+      notify: Restart Finder
+      when: tweak_macos_show_status_bar_enabled
+    - name: Show Quit option in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: QuitMenuItem
+        type: bool
+        value: "{{ tweak_macos_show_quit_option_value }}"
+      notify: Restart Finder
+      when: tweak_macos_show_quit_option_enabled
+    - name: Keep folders on top when sorting by name in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: _FXSortFoldersFirst
+        type: bool
+        value: "{{ tweak_macos_keep_folders_on_top_value }}"
+      notify: Restart Finder
+      when: tweak_macos_keep_folders_on_top_enabled
+    - name: Disable warnings when changing file extensions in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: FXEnableExtensionChangeWarning
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_file_extension_warning_value else 'true' }}"
+      notify: Restart Finder
+      when: tweak_macos_disable_file_extension_warning_enabled
+    - name: Set default view style in Finder
+      osx_defaults:
+        domain: com.apple.finder
+        key: FXPreferredViewStyle
+        type: string
+        value: "{{ tweak_macos_default_view_style_value }}"
+      notify: Restart Finder
+      when: tweak_macos_default_view_style_enabled
+    - name: Enable spring loading for directories in Finder
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: com.apple.springing.enabled
+        type: bool
+        value: "{{ tweak_macos_enable_spring_loading_value }}"
+      when: tweak_macos_enable_spring_loading_enabled
+    - name: Change spring loading delay
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: com.apple.springing.delay
+        type: float
+        value: "{{ tweak_macos_spring_loading_delay_value }}"
+      when: tweak_macos_spring_loading_delay_enabled
+    - name: Disable .DS_Store file creation on network volumes
+      osx_defaults:
+        domain: com.apple.desktopservices
+        key: DSDontWriteNetworkStores
+        type: bool
+        value: "{{ tweak_macos_disable_ds_store_value }}"
+      when: tweak_macos_disable_ds_store_enabled
+    - name: Disable warnings about emptying trash
+      osx_defaults:
+        domain: com.apple.finder
+        key: WarnOnEmptyTrash
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_empty_trash_warning_value else 'true' }}"
+      notify: Restart Finder
+      when: tweak_macos_disable_empty_trash_warning_enabled
+    - name: Automatically empty trashed items after 30 days
+      osx_defaults:
+        domain: com.apple.finder
+        key: FXRemoveOldTrashItems
+        type: bool
+        value: "{{ tweak_macos_empty_trash_automatically_value }}"
+      notify: Restart Finder
+      when: tweak_macos_empty_trash_automatically_enabled
+    - name: Change Dock position
+      osx_defaults:
+        domain: com.apple.dock
+        key: orientation
+        type: string
+        value: "{{ tweak_macos_dock_position_value }}"
+      notify: Restart Dock
+      when: tweak_macos_dock_position_enabled
+    - name: Set Dock icon size
+      osx_defaults:
+        domain: com.apple.dock
+        key: tilesize
+        type: int
+        value: "{{ tweak_macos_dock_icon_size_value }}"
+      notify: Restart Dock
+      when: tweak_macos_dock_icon_size_enabled
+    - name: Lock Dock icon size
+      osx_defaults:
+        domain: com.apple.dock
+        key: size-immutable
+        type: bool
+        value: "{{ tweak_macos_lock_dock_icon_size_value }}"
+      notify: Restart Dock
+      when: tweak_macos_lock_dock_icon_size_enabled
+    - name: Enable Dock icons spring loading
+      osx_defaults:
+        domain: com.apple.dock
+        key: enable-spring-load-actions-on-all-items
+        type: bool
+        value: "{{ tweak_macos_enable_dock_spring_loading_value }}"
+      notify: Restart Dock
+      when: tweak_macos_enable_dock_spring_loading_enabled
+    - name: Disable showing recent applications in Dock
+      osx_defaults:
+        domain: com.apple.dock
+        key: show-recents
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_recent_apps_value else 'true' }}"
+      notify: Restart Dock
+      when: tweak_macos_disable_recent_apps_enabled
+    - name: Change Dock animation effect
+      osx_defaults:
+        domain: com.apple.dock
+        key: mineffect
+        type: string
+        value: "{{ tweak_macos_dock_animation_effect_value }}"
+      notify: Restart Dock
+      when: tweak_macos_dock_animation_effect_enabled
+    - name: Disable swipe navigation in Google Chrome
+      osx_defaults:
+        domain: com.google.Chrome
+        key: AppleEnableSwipeNavigateWithScrolls
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_swipe_navigation_value else 'true' }}"
+      when: tweak_macos_disable_swipe_navigation_enabled
+    - name: Set theme to dark mode
+      osx_defaults:
+        domain: AppleInterfaceStyle
+        key: string
+        type: string
+        value: "{{ tweak_macos_dark_mode_value }}"
+      when: tweak_macos_dark_mode_enabled
+    - name: Disable iTunes media keys
+      ansible.builtin.command: launchctl "{{ 'unload' if tweak_macos_disable_itunes_media_keys_value else 'load' }}" -w /System/Library/LaunchAgents/com.apple.rcd.plist
+      when: tweak_macos_disable_itunes_media_keys_enabled
+    - name: Disable 'shake mouse pointer to locate' feature
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: CGDisableCursorLocationMagnification
+        type: bool
+        value: "{{ tweak_macos_disable_mouse_shake_value }}"
+      when: tweak_macos_disable_mouse_shake_enabled
+    - name: Put display to sleep due to inactivity
+      become: true
+      ansible.builtin.command: pmset -a displaysleep "{{ tweak_macos_display_sleep_value }}"
+      changed_when: no
+      when: tweak_macos_display_sleep_enabled
+    - name: Put computer to sleep due to inactivity
+      become: true
+      ansible.builtin.command: pmset -a sleep "{{ tweak_macos_computer_sleep_value }}"
+      changed_when: no
+      when: tweak_macos_computer_sleep_enabled
+    - name: Disable computer sleep
+      become: true
+      ansible.builtin.command: systemsetup -setcomputersleep Never
+      when: tweak_macos_disable_computer_sleep_enabled
+    - name: Always keep windows
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSQuitAlwaysKeepsWindows
+        type: bool
+        value: "{{ tweak_macos_keep_windows_value }}"
+      when: tweak_macos_keep_windows_enabled
+    - name: Disable memory swap
+      become: true
+      ansible.builtin.command: "nvram boot-args='vm_compressor={{ '2' if tweak_macos_disable_memory_compression_value else '4' }}'"
+      when:
+        - tweak_macos_disable_memory_compression_enabled
+        - "'disabled' in tweak_macos_sip.stdout"
+    - name: Disable crash reports
+      become: true
+      ansible.builtin.command: "launchctl {{ 'unload' if tweak_macos_disable_crash_reports_value else 'load' }} -w {{ item }}"
+      with_items:
+        - /System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist
+        - /System/Library/LaunchDaemons/com.apple.spindump.plist
+        - /System/Library/LaunchDaemons/com.apple.tailspind.plist
+      when:
+        - tweak_macos_disable_crash_reports_enabled
+        - "'disabled' in tweak_macos_sip.stdout"
+    - name: Change software update frequency
+      osx_defaults:
+        domain: com.apple.SoftwareUpdate
+        key: ScheduleFrequency
+        type: int
+        value: "{{ tweak_macos_software_update_frequency_value }}"
+      when: tweak_macos_software_update_frequency_enabled
+    - name: Change default shell
+      ansible.builtin.command: chsh -s /bin/"{{ tweak_macos_default_shell_value }}"
+      changed_when: no
+      when: tweak_macos_default_shell_enabled
+    - name: Disable spelling autocorrect
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSAutomaticSpellingCorrectionEnabled
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_spelling_autocorrect_value else 'true' }}"
+      when: tweak_macos_disable_spelling_autocorrect_enabled
+  handlers:
+    - name: Restart Finder
+      ansible.builtin.command: killall Finder
+    - name: Restart Dock
+      ansible.builtin.command: killall Dock
+    - name: Restart SystemUIServer
+      ansible.builtin.command: killall SystemUIServer
+  vars:
+    tweak_macos_launchpad_grid_columns_enabled: false
+    tweak_macos_launchpad_grid_columns_value: 4
+    tweak_macos_launchpad_grid_rows_enabled: false
+    tweak_macos_launchpad_grid_rows_value: 3
+    tweak_macos_disable_disk_image_verification_enabled: false
+    tweak_macos_disable_disk_image_verification_value: true
+    tweak_macos_disable_gatekeeper_enabled: false
+    tweak_macos_disable_gatekeeper_value: true
+    tweak_macos_disable_game_center_enabled: false
+    tweak_macos_disable_game_center_value: true
+    tweak_macos_disable_smart_quotes_enabled: false
+    tweak_macos_disable_smart_quotes_value: true
+    tweak_macos_disable_smart_dashes_enabled: false
+    tweak_macos_disable_smart_dashes_value: true
+    tweak_macos_disable_sudden_motion_sensor_enabled: false
+    tweak_macos_disable_sudden_motion_sensor_value: true
+    tweak_macos_disable_hibernation_enabled: false
+    tweak_macos_disable_hibernation_value: true
+    tweak_macos_disable_photos_auto_open_enabled: false
+    tweak_macos_disable_photos_auto_open_value: true
+    tweak_macos_default_screenshot_location_enabled: false
+    tweak_macos_default_screenshot_location_value: ~/Desktop
+    tweak_macos_display_thumbnail_after_screenshot_enabled: false
+    tweak_macos_display_thumbnail_after_screenshot_value: true
+    tweak_macos_screenshots_format_enabled: false
+    tweak_macos_screenshots_format_value: png
+    tweak_macos_disable_screenshot_shadow_enabled: false
+    tweak_macos_disable_screenshot_shadow_value: true
+    tweak_macos_include_date_in_screenshot_filenames_enabled: false
+    tweak_macos_include_date_in_screenshot_filenames_value: true
+    tweak_macos_subpixel_font_rendering_enabled: false
+    tweak_macos_subpixel_font_rendering_value: 3
+    tweak_macos_show_file_extensions_enabled: false
+    tweak_macos_show_file_extensions_value: true
+    tweak_macos_show_hidden_files_enabled: false
+    tweak_macos_show_hidden_files_value: true
+    tweak_macos_sidebar_icon_size_enabled: false
+    tweak_macos_sidebar_icon_size_value: 2
+    tweak_macos_show_status_bar_enabled: false
+    tweak_macos_show_status_bar_value: true
+    tweak_macos_show_quit_option_enabled: false
+    tweak_macos_show_quit_option_value: true
+    tweak_macos_keep_folders_on_top_enabled: false
+    tweak_macos_keep_folders_on_top_value: true
+    tweak_macos_disable_file_extension_warning_enabled: false
+    tweak_macos_disable_file_extension_warning_value: true
+    tweak_macos_default_view_style_enabled: false
+    tweak_macos_default_view_style_value: Nlsv
+    tweak_macos_enable_spring_loading_enabled: false
+    tweak_macos_enable_spring_loading_value: true
+    tweak_macos_spring_loading_delay_enabled: false
+    tweak_macos_spring_loading_delay_value: 1
+    tweak_macos_disable_ds_store_enabled: false
+    tweak_macos_disable_ds_store_value: true
+    tweak_macos_disable_empty_trash_warning_enabled: false
+    tweak_macos_disable_empty_trash_warning_value: true
+    tweak_macos_empty_trash_automatically_enabled: false
+    tweak_macos_empty_trash_automatically_value: true
+    tweak_macos_dock_position_enabled: false
+    tweak_macos_dock_position_value: right
+    tweak_macos_dock_icon_size_enabled: false
+    tweak_macos_dock_icon_size_value: 32
+    tweak_macos_lock_dock_icon_size_enabled: false
+    tweak_macos_lock_dock_icon_size_value: true
+    tweak_macos_enable_dock_spring_loading_enabled: false
+    tweak_macos_enable_dock_spring_loading_value: true
+    tweak_macos_disable_recent_apps_enabled: false
+    tweak_macos_disable_recent_apps_value: true
+    tweak_macos_dock_animation_effect_enabled: false
+    tweak_macos_dock_animation_effect_value: genie
+    tweak_macos_disable_swipe_navigation_enabled: false
+    tweak_macos_disable_swipe_navigation_value: true
+    tweak_macos_dark_mode_enabled: false
+    tweak_macos_dark_mode_value: Dark
+    tweak_macos_disable_itunes_media_keys_enabled: false
+    tweak_macos_disable_itunes_media_keys_value: true
+    tweak_macos_disable_mouse_shake_enabled: false
+    tweak_macos_disable_mouse_shake_value: true
+    tweak_macos_display_sleep_enabled: false
+    tweak_macos_display_sleep_value: 10
+    tweak_macos_computer_sleep_enabled: false
+    tweak_macos_computer_sleep_value: 0
+    tweak_macos_disable_computer_sleep_enabled: false
+    tweak_macos_keep_windows_enabled: false
+    tweak_macos_keep_windows_value: true
+    tweak_macos_disable_memory_compression_enabled: false
+    tweak_macos_disable_memory_compression_value: true
+    tweak_macos_disable_crash_reports_enabled: false
+    tweak_macos_disable_crash_reports_value: true
+    tweak_macos_software_update_frequency_enabled: false
+    tweak_macos_software_update_frequency_value: 1
+    tweak_macos_default_shell_enabled: false
+    tweak_macos_default_shell_value: bash
+    tweak_macos_disable_spelling_autocorrect_enabled: false
+    tweak_macos_disable_spelling_autocorrect_true: true

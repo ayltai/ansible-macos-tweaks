@@ -1,0 +1,337 @@
+[
+    {
+        "id"           : "tweak_macos_launchpad_grid_columns",
+        "name"         : "Change Launchpad grid columns",
+        "description"  : "Change the Launchpad grid layout to this many columns. By default, it displays 7 columns.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 4
+    },
+    {
+        "id"           : "tweak_macos_launchpad_grid_rows",
+        "name"         : "Change Launchpad grid rows",
+        "description"  : "Change the Launchpad grid layout to this many rows. By default, it displays 5 rows.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 3
+    },
+    {
+        "id"           : "tweak_macos_disable_disk_image_verification",
+        "name"         : "Disable disk image verification",
+        "description"  : "You can skip disk image file checksum verification to speed up the mounting of disk images through this is not recommended by security experts or Apple. Specify 'true' to disable disk image verification and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_gatekeeper",
+        "name"         : "Disable Gatekeeper",
+        "description"  : "Gatekeeper requires applications to be signed before they can be run. However, code signing is a paid process and not all developers sign their applications. It gets annoying when it won't let you oepn an application that you know is safe. Specify 'true' to disable Gatekeeper and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_game_center",
+        "name"         : "Disable Game Center daemon",
+        "description"  : "Game Center daemon continues to run even when you have disabled Game Center. Specify 'true' to disable Game Center daemon and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_smart_quotes",
+        "name"         : "Disable smart quotes",
+        "description"  : "macOS automatically converts straight quotes to smart quotes. But for developers, it's annoying to have to manually change them back. Specify 'true' to disable smart quotes and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_smart_dashes",
+        "name"         : "Disable smart dashes",
+        "description"  : "macOS automatically converts straight dashes to smart dashes. But for developers, it's annoying to have to manually change them back. Specify 'true' to disable smart dashes and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_sudden_motion_sensor",
+        "name"         : "Disable the Sudden Motion Sensor",
+        "description"  : "The Sudden Motion Sensor is a hardware feature that detects sudden movement and can be used to protect the hard drive. However, it can also cause problems when you are using a laptop on an uneven surface and it is unnecessary if your MacBook ships with an SSD drive. Specify 'true' to disable the Sudden Motion Sensor and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_hibernation",
+        "name"         : "Disable hibernation",
+        "description"  : "macOS copies the current RAM contents to a file on the disk drive and then shuts down. This is useful if you want to resume your work after a power outage. However, it can cause problems to some applications and it shortens the lifespan of your SSD drive. Specify 'true' to disable hibernation and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_photos_auto_open",
+        "name"         : "Disable Photos from opening automatically",
+        "description"  : "macOS automatically opens Photos every time you insert a memory card or connect a device. Specify 'true' to disable Photos from opening automatically and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_default_screenshot_location",
+        "name"         : "Change default screenshot location",
+        "description"  : "Change the default location where screenshots are saved. By default, it saves screenshots to the desktop.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "~/Desktop"
+    },
+    {
+        "id"           : "tweak_macos_display_thumbnail_after_screenshot",
+        "name"         : "Display thumbnail after screenshot",
+        "description"  : "Display a thumbnail of the screenshot after taking a screenshot. Specify 'true' to display a thumbnail and 'false' to not display a thumbnail.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_screenshots_format",
+        "name"         : "Change screenshots format",
+        "description"  : "By default, macOS saves screenshots in PNG format. Supported formats are 'jpg', 'tiff', 'gif', 'pdf', and 'png'.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_screenshot_shadow",
+        "name"         : "Disable screenshot shadow",
+        "description"  : "By default, macOS adds a shadow to screenshots. Specify 'true' to disable the shadow and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_include_date_in_screenshot_filenames",
+        "name"         : "Include date in screenshot filenames",
+        "description"  : "By default, macOS saves screenshots with the filename 'Screen Shot YYYY-MM-DD at HH.MM.SS AM/PM'. Specify 'true' to include the date in the filename and 'false' to disable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_subpixel_font_rendering",
+        "name"         : "Change subpixel font rendering on external monitors",
+        "description"  : "If you are running macOS on a Mac without a retina display, or with an external monitor that does not have an ultra-high resolution screen, you may have noticed that some fonts and text can appear as blurry and difficult to read. This is because macOS is rendering the text using subpixel font rendering. Specify '1' if you want less text smoothing, '2' if you want medium-level text smoothing, and '3' if you want even more text smoothing.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 3
+    },
+    {
+        "id"           : "tweak_macos_show_file_extensions",
+        "name"         : "Show file extensions in Finder",
+        "description"  : "By default, macOS hides file extensions in Finder. Specify 'true' to show file extensions and 'false' to hide them.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_show_hidden_files",
+        "name"         : "Show hidden files in Finder",
+        "description"  : "By default, macOS hides hidden files in Finder. Specify 'true' to show hidden files and 'false' to hide them.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_sidebar_icon_size",
+        "name"         : "Change sidebar icon size in Finder",
+        "description"  : "Change the size of the icons in the sidebar of Finder. Specify '1' (smallest), '2', or '3' (largest).",
+        "author"       : "Alan Tai",
+        "defaultValue" : 2
+    },
+    {
+        "id"           : "tweak_macos_show_status_bar",
+        "name"         : "Show status bar in Finder",
+        "description"  : "By default, macOS hides the status bar in Finder. Specify 'true' to show the status bar and 'false' to hide it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_show_quit_option",
+        "name"         : "Show Quit option in Finder",
+        "description"  : "By default, macOS hides the Quit option in Finder. Specify 'true' to show the Quit option and 'false' to hide it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_keep_folders_on_top",
+        "name"         : "Keep folders on top when sorting by name in Finder",
+        "description"  : "By default, Finder sorts a directory's contents by name, with both files and folders arranged alongside one another based upon an alphabetical sorting of their names. Specify 'true' to keep folders on top and 'false' to keep the default behavior.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_file_extension_warning",
+        "name"         : "Disable warnings when changing file extensions in Finder",
+        "description"  : "macOS warns you when you change a file extension. Specify 'true' to disable the warning and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_default_view_style",
+        "name"         : "Set default view style in Finder",
+        "description"  : "Finder can display files in a variety of ways and it may open up with a different view style each time. Specify 'Nlsv' for list view, 'icnv' for icon view, 'clmv' for column view, 'Flwv' for cover flow view, and 'glyv' for gallery view.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "Nlsv"
+    },
+    {
+        "id"           : "tweak_macos_enable_spring_loading",
+        "name"         : "Enable spring loading for directories in Finder",
+        "description"  : "A spring-loaded folder pops open when you drag something onto its icon while holding down the mouse button. Specify 'true' to enable spring loading and 'false' to disable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_spring_loading_delay",
+        "name"         : "Change spring loading delay",
+        "description"  : "You can customize the spring-loaded folder delay to suit your preference. The value is in seconds.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 1
+    },
+    {
+        "id"           : "tweak_macos_disable_ds_store",
+        "name"         : "Disable .DS_Store file creation on network volumes",
+        "description"  : "macOS creates .DS_Store files on network volumes to store custom attributes of the folder. Specify 'true' to disable .DS_Store file creation and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_empty_trash_warning",
+        "name"         : "Disable warnings about emptying trash",
+        "description"  : "By default, macOS warns you when you empty the trash. Specify 'true' to disable the warning and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_empty_trash_automatically",
+        "name"         : "Empty trash automatically after 30 days",
+        "description"  : "By default, macOS does not empty the trash automatically. Specify 'true' to empty the trash automatically after 30 days and 'false' to disable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_dock_position",
+        "name"         : "Change Dock position",
+        "description"  : "You can change the position of the Dock to the left, bottom, or right side of the screen. Supported values are 'left', 'bottom', or 'right'.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "right"
+    },
+    {
+        "id"           : "tweak_macos_dock_icon_size",
+        "name"         : "Set Dock icon size",
+        "description"  : "You can change the size of the Dock icons to an exact number. The value is in pixels.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 32
+    },
+    {
+        "id"           : "tweak_macos_lock_dock_icon_size",
+        "name"         : "Lock Dock icon size",
+        "description"  : "You can lock the size of the Dock icons to prevent them from being resized. Specify 'true' to lock the size and 'false' to unlock it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_enable_dock_spring_loading",
+        "name"         : "Enable Dock icons spring loading",
+        "description"  : "Dock icons can operate with the same spring-loaded features as folders. By default, this feature is disabled. Specify 'true' to enable spring loading and 'false' to disable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_recent_apps",
+        "name"         : "Disable showing recent applications in Dock",
+        "description"  : "By default, macOS shows three most recent applications in the Dock. Specify 'true' to disable this feature and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_dock_animation_effect",
+        "name"         : "Change Dock animation effect",
+        "description"  : "macOS animates the Dock when you open or close an application. The default animation effect is 'genie'. Supported values are 'genie', 'scale', or 'suck'.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "genie"
+    },
+    {
+        "id"           : "tweak_macos_disable_swipe_navigation",
+        "name"         : "Disable swipe navigation in Google Chrome",
+        "description"  : "Even if you have disabled the system-wide 'Swipe between pages' feature, Google Chrome still allows you to swipe between pages. Specify 'true' to disable swipe navigation and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_dark_mode",
+        "name"         : "Set theme to dark mode",
+        "description"  : "Specify 'Dark' to set the theme to dark mode and 'Light' to set it to light mode.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "Dark"
+    },
+    {
+        "id"           : "tweak_macos_disable_itunes_media_keys",
+        "name"         : "Disable iTunes media keys",
+        "description"  : "If you have iTunes installed, when you press Play on the keyboard, or connect the headset and Bluetooth speaker, iTunes will automatically run. Specify 'true' to disable this feature and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_mouse_shake",
+        "name"         : "Disable 'shake mouse pointer to locate' feature",
+        "description"  : "By default, the mouse cursor in macOS gets really big when you shake the mouse or when you move it too quickly. Specify 'true' to disable this feature and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_display_sleep",
+        "name"         : "Put display to sleep due to inactivity",
+        "description"  : "You can put the display to sleep for battery saving or privacy reasons. Specify the number of minutes of inactivity before the display goes to sleep.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 10
+    },
+    {
+        "id"           : "tweak_macos_computer_sleep",
+        "name"         : "Put computer to sleep due to inactivity",
+        "description"  : "You can put the computer to sleep for battery saving or privacy reasons. Specify the number of minutes of inactivity before the computer goes to sleep.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 0
+    },
+    {
+        "id"          : "tweak_macos_disable_computer_sleep",
+        "name"        : "Disable computer sleep",
+        "description" : "You can disable the computer from sleeping. Specify 'true' to disable computer sleep and 'false' to enable it.",
+        "author"      : "Alan Tai"
+    },
+    {
+        "id"           : "tweak_macos_keep_windows",
+        "name"         : "Always keep windows",
+        "description"  : "macOS can remember all the tabs and windows you had open for the next time you launch it again. Specify 'true' to keep windows and 'false' to not keep them.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_memory_compression",
+        "name"         : "Disable memory swap",
+        "description"  : "You may want to disable memory swap to improve performance and prolong the SSD drive lifetime. However, this may cause the system to crash if you run out of memory. Specify 'true' to disable memory swap and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_disable_crash_reports",
+        "name"         : "Disable crash reports",
+        "description"  : "The crash reporter takes up a lot resources and if you are a developer, you may quickly get annoyed by the constant popups. Specify 'true' to disable crash reports and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_software_update_frequency",
+        "name"         : "Change software update frequency",
+        "description"  : "macOS automatically checks for software updates but you cannot change how often it checks in System Preferences. Specify the number of days between each check.",
+        "author"       : "Alan Tai",
+        "defaultValue" : 1
+    },
+    {
+        "id"           : "tweak_macos_default_shell",
+        "name"         : "Change default shell",
+        "description"  : "Specify the default shell. Supported values are 'bash', 'csh', 'dash', 'ksh', 'sh', 'tcsh', and 'zsh'.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "bash"
+    },
+    {
+        "id"           : "tweak_macos_disable_spelling_autocorrect",
+        "name"         : "Disable spelling autocorrect",
+        "description"  : "macOS automatically corrects your spelling mistakes. Specify 'true' to disable this feature and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    }
+]
