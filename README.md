@@ -1,6 +1,6 @@
 # ansible-macos-tweaks
 
-Tweak your macOS with Ansible in over 40 different ways!
+Tweak your macOS with Ansible in nearly 50 different ways!
 
 ## Quick start
 
@@ -30,6 +30,8 @@ ansible-playbook playbook.yml --extra-vars "tweak_macos_launchpad_grid_columns_e
 | `tweak_macos_disable_disk_image_verification_value` | `bool` | `true` | Specify 'true' to disable disk image verification and 'false' to enable it. |
 | `tweak_macos_disable_gatekeeper_enabled` | `bool` | `false` | Gatekeeper requires applications to be signed before they can be run. However, code signing is a paid process and not all developers sign their applications. It gets annoying when it won't let you oepn an application that you know is safe. Specify whether to disable Gatekeeper. |
 | `tweak_macos_disable_gatekeeper_value` | `bool` | `true` | Specify 'true' to disable Gatekeeper and 'false' to enable it. |
+| `tweak_macos_disable_quarantine_enabled` | `bool` | `false` | When you download an application from the Internet, macOS will mark it as quarantined. This is to prevent you from running malicious applications. However, it gets annoying when it won't let you open an application that you know is safe. Specify whether to disable quarantine. |
+| `tweak_macos_disable_quarantine_value` | `bool` | `true` | Specify 'true' to disable quarantine and 'false' to enable it. |
 | `tweak_macos_disable_game_center_enabled` | `bool` | `false` | Game Center daemon continues to run even when you have disabled Game Center. Specify whether to disable Game Center. |
 | `tweak_macos_disable_game_center_value` | `bool` | `true` | Specify 'true' to disable Game Center and 'false' to enable it. |
 | `tweak_macos_disable_smart_quotes_enabled` | `bool` | `false` | macOS automatically converts straight quotes to smart quotes. But for developers, it's annoying to have to manually change them back. Specify whether to disable smart quotes. |

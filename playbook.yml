@@ -42,6 +42,13 @@
       become: true
       ansible.builtin.command: spctl --master-"{{ 'disable' if tweak_macos_disable_gatekeeper_value else 'enable' }}"
       when: tweak_macos_disable_gatekeeper_enabled
+    - name: Turn off quarantine on macOS
+      osx_defaults:
+        domain: com.apple.LaunchServices
+        key: LSQuarantine
+        type: bool
+        value: "{{ tweak_macos_disable_quarantine_value }}"
+      when: tweak_macos_disable_quarantine_enabled
     - name: Disable Game Center daemon
       ansible.builtin.command: launchctl "{{ 'unload' if tweak_macos_disable_game_center_value else 'load' }}" -w /System/Library/LaunchAgents/com.apple.gamed.plist 2> /dev/null
       when:
@@ -367,6 +374,8 @@
     tweak_macos_disable_disk_image_verification_value: true
     tweak_macos_disable_gatekeeper_enabled: false
     tweak_macos_disable_gatekeeper_value: true
+    tweak_macos_disable_quarantine_enabled: false
+    tweak_macos_disable_quarantine_value: true
     tweak_macos_disable_game_center_enabled: false
     tweak_macos_disable_game_center_value: true
     tweak_macos_disable_smart_quotes_enabled: false

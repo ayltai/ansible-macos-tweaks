@@ -28,6 +28,13 @@
         "defaultValue" : true
     },
     {
+        "id"           : "tweak_macos_disable_quarantine",
+        "name"         : "Turn off quarantine on macOS",
+        "description"  : "When you download an application from the Internet, macOS will mark it as quarantined. This is to prevent you from running malicious applications. However, it gets annoying when it won't let you open an application that you know is safe. Specify 'true' to disable quarantine and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
         "id"           : "tweak_macos_disable_game_center",
         "name"         : "Disable Game Center daemon",
         "description"  : "Game Center daemon continues to run even when you have disabled Game Center. Specify 'true' to disable Game Center daemon and 'false' to enable it.",
