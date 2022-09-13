@@ -365,6 +365,10 @@
       ansible.builtin.command: killall Dock
     - name: Restart SystemUIServer
       ansible.builtin.command: killall SystemUIServer
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: Please enter your root password
+      private: true
   vars:
     tweak_macos_launchpad_grid_columns_enabled: false
     tweak_macos_launchpad_grid_columns_value: 4
