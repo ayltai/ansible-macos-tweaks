@@ -68,6 +68,13 @@
         type: bool
         value: "{{ 'false' if tweak_macos_disable_smart_dashes_value else 'true' }}"
       when: tweak_macos_disable_smart_dashes_enabled
+    - name: Disable automatic capitalization
+      osx_defaults:
+        domain: NSGlobalDomain
+        key: NSAutomaticCapitalizationEnabled
+        type: bool
+        value: "{{ 'false' if tweak_macos_disable_automatic_capitalization_value else 'true' }}"
+      when: tweak_macos_disable_automatic_capitalization_enabled
     - name: Disable the Sudden Motion Sensor
       become: true
       ansible.builtin.command: pmset -a sms "{{ '0' if tweak_macos_disable_sudden_motion_sensor_value else '1' }}"
@@ -358,6 +365,14 @@
         type: bool
         value: "{{ 'false' if tweak_macos_disable_spelling_autocorrect_value else 'true' }}"
       when: tweak_macos_disable_spelling_autocorrect_enabled
+    - name: Change computer name
+      ansible.builtin.hostname:
+        name: "{{ tweak_macos_computer_name_value }}"
+      when: tweak_macos_computer_name_enabled
+    - name: Disable the sound effects on boot
+      become: true
+      ansible.builtin.command: nvram SystemAudioVolume=" "
+      when: tweak_macos_disable_boot_sound_enabled
   handlers:
     - name: Restart Finder
       ansible.builtin.command: killall Finder
@@ -386,6 +401,8 @@
     tweak_macos_disable_smart_quotes_value: true
     tweak_macos_disable_smart_dashes_enabled: false
     tweak_macos_disable_smart_dashes_value: true
+    tweak_macos_disable_auto_capitalization_enabled: false
+    tweak_macos_disable_auto_capitalization_value: true
     tweak_macos_disable_sudden_motion_sensor_enabled: false
     tweak_macos_disable_sudden_motion_sensor_value: true
     tweak_macos_disable_hibernation_enabled: false
@@ -467,3 +484,6 @@
     tweak_macos_default_shell_value: bash
     tweak_macos_disable_spelling_autocorrect_enabled: false
     tweak_macos_disable_spelling_autocorrect_true: true
+    tweak_macos_change_computer_name_enabled: false
+    tweak_macos_change_computer_name_value: BrewMyMac
+    tweak_macos_disable_boot_sound_enabled: false

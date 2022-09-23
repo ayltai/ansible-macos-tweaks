@@ -56,6 +56,13 @@
         "defaultValue" : true
     },
     {
+        "id"           : "tweak_macos_disable_auto_capitalization",
+        "name"         : "Disable auto capitalization",
+        "description"  : "macOS automatically capitalizes the first letter of a sentence. But for developers, it's annoying to have to manually change them back. Specify 'true' to disable auto capitalization and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
         "id"           : "tweak_macos_disable_sudden_motion_sensor",
         "name"         : "Disable the Sudden Motion Sensor",
         "description"  : "The Sudden Motion Sensor is a hardware feature that detects sudden movement and can be used to protect the hard drive. However, it can also cause problems when you are using a laptop on an uneven surface and it is unnecessary if your MacBook ships with an SSD drive. Specify 'true' to disable the Sudden Motion Sensor and 'false' to enable it.",
@@ -338,6 +345,20 @@
         "id"           : "tweak_macos_disable_spelling_autocorrect",
         "name"         : "Disable spelling autocorrect",
         "description"  : "macOS automatically corrects your spelling mistakes. Specify 'true' to disable this feature and 'false' to enable it.",
+        "author"       : "Alan Tai",
+        "defaultValue" : true
+    },
+    {
+        "id"           : "tweak_macos_change_computer_name",
+        "name"         : "Change computer name",
+        "description"  : "Specify the computer name.",
+        "author"       : "Alan Tai",
+        "defaultValue" : "BrewMyMac"
+    },
+    {
+        "id"           : "tweak_macos_disable_boot_sound",
+        "name"         : "Disable boot sound",
+        "description"  : "macOS plays a sound when you boot up your computer. Specify 'true' to disable this feature and 'false' to enable it.",
         "author"       : "Alan Tai",
         "defaultValue" : true
     }

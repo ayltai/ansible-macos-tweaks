@@ -1,6 +1,6 @@
 # ansible-macos-tweaks
 
-Tweak your macOS with Ansible in nearly 50 different ways!
+Tweak your macOS with Ansible in over 50 different ways!
 
 ## Quick start
 
@@ -38,6 +38,8 @@ ansible-playbook playbook.yml --extra-vars "tweak_macos_launchpad_grid_columns_e
 | `tweak_macos_disable_smart_quotes_value` | `bool` | `true` | Specify 'true' to disable smart quotes and 'false' to enable it. |
 | `tweak_macos_disable_smart_dashes_enabled` | `bool` | `false` | macOS automatically converts two hyphens to an em dash. But for developers, it's annoying to have to manually change them back. Specify whether to disable smart dashes. |
 | `tweak_macos_disable_smart_dashes_value` | `bool` | `true` | Specify 'true' to disable smart dashes and 'false' to enable it. |
+| `tweak_macos_disable_auto_capitalization_enabled` | `bool` | `false` | macOS automatically capitalizes the first letter of a sentence. But for developers, it's annoying to have to manually change them back. Specify whether to disable auto capitalization. |
+| `tweak_macos_disable_auto_capitalization_value` | `bool` | `true` | Specify 'true' to disable auto capitalization and 'false' to enable it. |
 | `tweak_macos_disable_sudden_motion_sensor_enabled` | `bool` | `false` | The Sudden Motion Sensor is a hardware feature that detects sudden movement and can be used to protect the hard drive. However, it can also cause problems when you are using a laptop on an uneven surface and it is unnecessary if your MacBook ships with an SSD drive. Specify whether to disable Sudden Motion Sensor. |
 | `tweak_macos_disable_sudden_motion_sensor_value` | `bool` | `true` | Specify 'true' to disable the Sudden Motion Sensor and 'false' to enable it. |
 | `tweak_macos_disable_hibernation_enabled` | `bool` | `false` | macOS copies the current RAM contents to a file on the disk drive and then shuts down. This is useful if you want to resume your work after a power outage. However, it can cause problems to some applications and it shortens the lifespan of your SSD drive. Specify whether to disable hibernation. |
@@ -119,6 +121,10 @@ ansible-playbook playbook.yml --extra-vars "tweak_macos_launchpad_grid_columns_e
 | `tweak_macos_default_shell_value` | `string` | `/bin/zsh` | Specify the default shell. Supported values are 'bash', 'csh', 'dash', 'ksh', 'sh', 'tcsh', and 'zsh'. |
 | `tweak_macos_disable_spelling_autocorrect_enabled` | `bool` | `false` | macOS automatically corrects your spelling mistakes. Specify whether to enable changing this setting. |
 | `tweak_macos_disable_spelling_autocorrect_value` | `bool` | `true` | Specify 'true' to disable spelling autocorrect and 'false' to enable it. |
+| `tweak_macos_change_computer_name_enabled` | `bool` | `false` | Specify whether to change the computer name. |
+| `tweak_macos_change_computer_name_value` | `string` | `BrewMyMac` | Specify the computer name. |
+| `tweak_macos_disable_boot_sound_enabled` | `bool` | `false` | macOS plays a sound when you start up your computer. Specify whether to enable changing this setting. |
+| `tweak_macos_disable_boot_sound_value` | `bool` | `true` | Specify 'true' to disable boot sound and 'false' to enable it. |
 
 ## License
 [MIT](/blob/master/LICENSE)
