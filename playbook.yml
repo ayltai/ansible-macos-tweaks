@@ -367,8 +367,8 @@
       when: tweak_macos_disable_spelling_autocorrect_enabled
     - name: Change computer name
       ansible.builtin.hostname:
-        name: "{{ tweak_macos_computer_name_value }}"
-      when: tweak_macos_computer_name_enabled
+        name: "{{ tweak_macos_change_computer_name_value }}"
+      when: tweak_macos_change_computer_name_enabled
     - name: Disable the sound effects on boot
       become: true
       ansible.builtin.command: nvram SystemAudioVolume=" "
