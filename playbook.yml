@@ -74,7 +74,7 @@
         key: NSAutomaticCapitalizationEnabled
         type: bool
         value: "{{ 'false' if tweak_macos_disable_automatic_capitalization_value else 'true' }}"
-      when: tweak_macos_disable_automatic_capitalization_enabled
+      when: tweak_macos_disable_auto_capitalization_enabled
     - name: Disable the Sudden Motion Sensor
       become: true
       ansible.builtin.command: pmset -a sms "{{ '0' if tweak_macos_disable_sudden_motion_sensor_value else '1' }}"
